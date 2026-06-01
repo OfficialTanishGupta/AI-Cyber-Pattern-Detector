@@ -1,201 +1,497 @@
-📸 Image Caption Generator
-An AI-powered application that automatically generates meaningful natural-language captions from images using Deep Learning, Computer Vision, and Natural Language Processing techniques.
-� � � �
-📖 Overview
-Image Captioning is a challenging Artificial Intelligence task that combines Computer Vision and Natural Language Processing (NLP).
-This project analyzes an uploaded image, extracts visual features using a pre-trained deep learning model, and generates a human-readable caption describing the image content.
-The system mimics how humans understand and describe visual scenes by learning relationships between image features and textual descriptions.
-✨ Key Features
-✅ Automatic caption generation from images
-✅ Deep Learning-based feature extraction
-✅ Natural language sentence generation
-✅ User-friendly web interface
-✅ Image upload and instant prediction
-✅ End-to-end AI pipeline
-✅ Scalable architecture for future model improvements
-🧠 AI Architecture
-The project follows a two-stage architecture:
-1️⃣ Visual Feature Extraction
-A pre-trained CNN model extracts high-level visual features from the image.
-Examples:
-VGG16
-ResNet50
-InceptionV3
-The CNN converts the image into a dense feature vector representing important visual information.
-2️⃣ Caption Generation
-An NLP model generates captions word-by-word using learned language patterns.
-Possible models:
-LSTM (Long Short-Term Memory)
-GRU
-Sequence-to-Sequence Architecture
-The generated caption is built sequentially until an end token is predicted.
-🔄 Workflow
-Plain text
-Input Image
-      │
-      ▼
-Image Preprocessing
-      │
-      ▼
-CNN Feature Extraction
-      │
-      ▼
-Feature Vector
-      │
-      ▼
-LSTM Decoder
-      │
-      ▼
-Caption Generation
-      │
-      ▼
-Human Readable Description
-🏗️ Project Structure
-Bash
-image-caption-generator/
+# 🛡️ AI Cyber Threat Pattern Detector
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-red.svg)
+![Cybersecurity](https://img.shields.io/badge/Cybersecurity-Anomaly%20Detection-green.svg)
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Autoencoder-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+### Intelligent Network Traffic Analysis using Deep Learning and Anomaly Detection
+
+Detect suspicious network activity by learning normal traffic behavior through Autoencoders, Latent Space Representation Learning, and Pattern Discovery.
+
+</div>
+
+---
+
+# 📌 Overview
+
+Traditional Intrusion Detection Systems (IDS) rely heavily on predefined rules and attack signatures.
+
+This project takes a different approach.
+
+Using Deep Learning and PyTorch, the model learns the normal behavior of network traffic and identifies suspicious activity based on reconstruction error.
+
+Instead of asking:
+
+> "Is this a known attack?"
+
+The system asks:
+
+> "Does this traffic pattern look abnormal?"
+
+This approach enables detection of previously unseen threats and zero-day attack patterns.
+
+---
+
+# 🚀 Features
+
+### ✅ Data Processing Pipeline
+
+- NSL-KDD Dataset Support
+- Feature Engineering
+- Label Encoding
+- Data Normalization
+- Tensor Conversion
+
+### ✅ Deep Learning Autoencoder
+
+- Fully Connected Encoder Network
+- Latent Space Compression
+- Decoder Reconstruction
+- Reconstruction Loss Optimization
+
+### ✅ Anomaly Detection Engine
+
+- Reconstruction Error Analysis
+- Dynamic Threshold Detection
+- Attack Probability Scoring
+- Suspicious Traffic Identification
+
+### ✅ Pattern Exploration
+
+- PCA Visualization
+- t-SNE Embedding Visualization
+- Latent Space Analysis
+- Traffic Cluster Discovery
+
+### ✅ Professional Development Workflow
+
+- Git Version Control
+- Modular Project Structure
+- Reproducible Training Pipeline
+- Model Checkpointing
+
+---
+
+# 🧠 Project Architecture
+
+```text
+Raw Network Traffic
+        │
+        ▼
+Data Preprocessing
+        │
+        ▼
+Feature Engineering
+        │
+        ▼
+PyTorch Dataset
+        │
+        ▼
+Autoencoder Training
+        │
+        ▼
+Latent Space Learning
+        │
+        ▼
+Reconstruction Error
+        │
+        ▼
+Anomaly Detection
+        │
+        ▼
+Threat Identification
+```
+
+---
+
+# 📂 Project Structure
+
+```text
+AI-Cyber-Pattern-Detector/
 │
-├── static/
-│   ├── uploads/
-│   └── assets/
+├── data/
+│   ├── KDDTrain+.txt
+│   ├── KDDTest+.txt
+│   └── processed_data.csv
 │
-├── templates/
-│   ├── index.html
-│   └── result.html
+├── models/
+│   └── autoencoder.pth
 │
-├── model/
-│   ├── trained_model.h5
-│   └── tokenizer.pkl
+├── outputs/
+│   ├── anomaly_results.csv
+│   ├── pca_visualization.png
+│   └── tsne_visualization.png
 │
-├── dataset/
-│   ├── images/
-│   └── captions.txt
+├── src/
+│   ├── dataset.py
+│   ├── preprocess.py
+│   ├── dataset_loader.py
+│   ├── model.py
+│   ├── train.py
+│   ├── anomaly_detection.py
+│   └── visualize_embeddings.py
 │
-├── app.py
-├── predict.py
-├── train.py
-├── utils.py
+├── notebooks/
+│
 ├── requirements.txt
-└── README.md
-🛠️ Technology Stack
-Programming Language
-Python
-Deep Learning
-TensorFlow
-Keras
-Computer Vision
-OpenCV
-Pillow (PIL)
-Data Processing
-NumPy
-Pandas
-Web Framework
-Flask
-NLP
-Tokenization
-Sequence Modeling
-Text Generation
-⚙️ Installation
-Clone Repository
-Bash
-git clone https://github.com/OfficialTanishGupta/image-caption-generator.git
-cd image-caption-generator
-Create Virtual Environment
-Bash
+├── README.md
+└── .gitignore
+```
+
+---
+
+# 📊 Dataset
+
+## NSL-KDD Dataset
+
+The project uses the NSL-KDD dataset, one of the most widely used benchmark datasets for Intrusion Detection Systems.
+
+### Dataset Includes
+
+- Normal Network Traffic
+- Denial of Service (DoS)
+- Probe Attacks
+- User-to-Root (U2R)
+- Remote-to-Local (R2L)
+
+### Features
+
+- 41 Network Features
+- Attack Labels
+- Multiple Attack Categories
+
+---
+
+# 🔬 Machine Learning Pipeline
+
+## Step 1 — Data Preprocessing
+
+### Operations
+
+- Remove unnecessary columns
+- Encode categorical values
+- Normalize numerical features
+- Convert labels to binary classification
+
+### Output
+
+```text
+Normal Traffic → 0
+Attack Traffic → 1
+```
+
+---
+
+## Step 2 — Autoencoder Training
+
+The model learns compressed representations of network behavior.
+
+### Encoder
+
+```text
+41 → 32 → 16 → 8
+```
+
+### Decoder
+
+```text
+8 → 16 → 32 → 41
+```
+
+### Latent Space
+
+The 8-dimensional latent vector captures hidden traffic patterns learned by the AI.
+
+---
+
+## Step 3 — Reconstruction Error Analysis
+
+The model attempts to reconstruct input traffic.
+
+### Normal Traffic
+
+```text
+Input ≈ Reconstruction
+Low Error
+```
+
+### Suspicious Traffic
+
+```text
+Input ≠ Reconstruction
+High Error
+```
+
+The reconstruction error becomes the anomaly score.
+
+---
+
+# 📈 Visualization
+
+The project visualizes learned traffic patterns using:
+
+## PCA
+
+Principal Component Analysis
+
+Used to:
+
+- Reduce dimensionality
+- Visualize learned embeddings
+- Discover traffic clusters
+
+## t-SNE
+
+t-Distributed Stochastic Neighbor Embedding
+
+Used to:
+
+- Reveal hidden structures
+- Identify attack clusters
+- Explore latent representations
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/AI-Cyber-Pattern-Detector.git
+
+cd AI-Cyber-Pattern-Detector
+```
+
+---
+
+## Create Virtual Environment
+
+```bash
 python -m venv venv
-Activate Environment
-Windows:
-Bash
+```
+
+### Windows
+
+```bash
 venv\Scripts\activate
-Linux / macOS:
-Bash
+```
+
+### Linux / macOS
+
+```bash
 source venv/bin/activate
-Install Dependencies
-Bash
+```
+
+---
+
+## Install Dependencies
+
+```bash
 pip install -r requirements.txt
-▶️ Running the Application
-Start the application:
-Bash
-python app.py
-Open your browser and navigate to:
-Plain text
-http://127.0.0.1:5000
-Upload an image and generate captions instantly.
-📸 Example
-Input
-Image:
-Plain text
-dog_playing.jpg
-Generated Caption
-Plain text
-"A brown dog running across a grassy field."
-🎯 Applications
-This project can be used in:
-Assistive technologies for visually impaired users
-Smart image search systems
-Social media automation
-Digital asset management
-Automated image annotation
-Content recommendation systems
-Robotics and autonomous systems
-📊 Future Enhancements
-Attention Mechanism
-Transformer-based Captioning Models
-Vision Transformer (ViT)
-BLIP Integration
-Multilingual Caption Generation
-Speech Output Support
-Real-time Webcam Captioning
-Cloud Deployment
-Mobile Application Support
-🧪 Model Training
-To train the model from scratch:
-Bash
+```
+
+---
+
+# 🚀 Usage
+
+## 1. Preprocess Dataset
+
+```bash
+cd src
+
+python preprocess.py
+```
+
+---
+
+## 2. Create Dataset Loader
+
+```bash
+python dataset_loader.py
+```
+
+---
+
+## 3. Train Autoencoder
+
+```bash
 python train.py
-Training process includes:
-Dataset preprocessing
-Vocabulary creation
-Feature extraction
-Sequence generation
-Model training
-Evaluation and saving
-🚀 Deployment Options
-The project can be deployed on:
-GitHub Pages (Frontend)
-Render
-Railway
-Heroku
-AWS EC2
-Google Cloud Platform
-Microsoft Azure
-Hugging Face Spaces
-👨‍💻 Author
-Tanish Gupta
-AI/ML Engineer | Computer Science Engineer
-Deep Learning
-Computer Vision
-NLP
-Robotics
-Intelligent Systems
-GitHub: https://github.com/OfficialTanishGupta⁠�
-🤝 Contributing
+```
+
+---
+
+## 4. Run Anomaly Detection
+
+```bash
+python anomaly_detection.py
+```
+
+---
+
+## 5. Generate Visualizations
+
+```bash
+python visualize_embeddings.py
+```
+
+---
+
+# 📊 Sample Results
+
+### Outputs Generated
+
+```text
+outputs/
+
+├── anomaly_results.csv
+├── pca_visualization.png
+└── tsne_visualization.png
+```
+
+### Model Output
+
+```text
+Detected Anomalies: XXXX
+
+Normal Traffic: XXXX
+
+Anomaly Percentage: XX%
+```
+
+---
+
+# 🛠️ Technologies Used
+
+### Programming
+
+- Python
+
+### Deep Learning
+
+- PyTorch
+
+### Data Processing
+
+- Pandas
+- NumPy
+
+### Visualization
+
+- Matplotlib
+- Scikit-Learn
+
+### Development Tools
+
+- Git
+- GitHub
+- VS Code
+
+---
+
+# 🎯 Learning Outcomes
+
+This project demonstrates practical experience in:
+
+### Cybersecurity
+
+- Intrusion Detection Systems
+- Threat Detection
+- Traffic Analysis
+- Anomaly Detection
+
+### Machine Learning
+
+- Deep Learning
+- Autoencoders
+- Feature Engineering
+- Representation Learning
+
+### PyTorch
+
+- Custom Datasets
+- DataLoaders
+- Model Training
+- GPU Acceleration
+- Model Serialization
+
+---
+
+# 🚀 Future Improvements
+
+### Planned Features
+
+- Streamlit Dashboard
+- Real-Time Packet Monitoring
+- Live Network Sniffing
+- Transformer-Based IDS
+- Threat Classification
+- Explainable AI Visualizations
+- SIEM Integration
+- Deployment on Cloud
+
+---
+
+# 📸 Screenshots
+
+Add screenshots here after generating outputs.
+
+### PCA Visualization
+
+```text
+Insert PCA Visualization Image
+```
+
+### t-SNE Visualization
+
+```text
+Insert t-SNE Visualization Image
+```
+
+### Dashboard Preview
+
+```text
+Coming Soon
+```
+
+---
+
+# 🤝 Contributing
+
 Contributions are welcome.
-Fork the repository
-Create a feature branch
-Bash
-git checkout -b feature/new-feature
-Commit changes
-Bash
-git commit -m "Added new feature"
-Push changes
-Bash
-git push origin feature/new-feature
-Open a Pull Request
-⭐ Show Your Support
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Open a Pull Request
+
+---
+
+# ⭐ Support
+
 If you found this project useful:
-⭐ Star the repository
-🍴 Fork the repository
-📢 Share with others
-📜 License
+
+- ⭐ Star the repository
+- 🍴 Fork the repository
+- 📢 Share with others
+
+---
+
+# 👨‍💻 Author
+
+### Tanish Gupta
+
+AI Engineer | Machine Learning Enthusiast | Cybersecurity Explorer
+
+Passionate about building intelligent systems using AI, Deep Learning, Cybersecurity, Robotics, and IoT technologies.
+
+---
+
+## 📜 License
+
 This project is licensed under the MIT License.
-💡 Project Goal
-The objective of this project is to demonstrate how Artificial Intelligence can bridge visual understanding and natural language generation, enabling machines to describe the world in a human-like manner. This project showcases practical applications of Deep Learning, Computer Vision, and NLP in a real-world AI system.
+
+Feel free to use, modify, and distribute for educational and research purposes.
