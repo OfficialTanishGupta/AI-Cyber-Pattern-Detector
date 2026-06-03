@@ -4,6 +4,21 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 
+st.markdown(
+    """
+<style>
+
+[data-testid="stMetric"]{
+    border:1px solid #333;
+    padding:15px;
+    border-radius:10px;
+}
+
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
 st.set_page_config(page_title="AI Cyber Threat Detector", page_icon="🛡️", layout="wide")
 
 
@@ -11,7 +26,14 @@ st.sidebar.title("🛡️ Navigation")
 
 page = st.sidebar.radio(
     "Select Page",
-    ["Home", "Dataset Overview", "Anomaly Detection", "Visualizations", "About"],
+    [
+        "Home",
+        "Dataset Overview",
+        "Anomaly Detection",
+        "Real-Time Monitor",
+        "Visualizations",
+        "About",
+    ],
 )
 
 
@@ -117,6 +139,49 @@ elif page == "Visualizations":
         st.subheader("t-SNE Visualization")
 
         st.image(tsne_path, use_container_width=True)
+
+
+elif page == "Real-Time Monitor":
+
+    import numpy as np
+    import time
+
+    st.title("🛡️ Real-Time Threat Monitoring")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("Traffic Packets", np.random.randint(1000, 5000))
+
+    with col2:
+        st.metric("Threats Detected", np.random.randint(1, 100))
+
+    with col3:
+        st.metric("System Status", "ACTIVE")
+
+    chart = st.line_chart()
+
+    status_box = st.empty()
+
+    values = []
+
+    for i in range(100):
+
+        threat_score = np.random.uniform(0, 0.05)
+
+        values.append(threat_score)
+
+        chart.add_rows(pd.DataFrame({"Threat Score": [threat_score]}))
+
+        if threat_score > 0.02:
+
+            status_box.error(f"🚨 Threat Score: {threat_score:.4f}")
+
+        else:
+
+            status_box.success(f"✅ Threat Score: {threat_score:.4f}")
+
+        time.sleep(0.1)
 
 
 elif page == "About":

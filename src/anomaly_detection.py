@@ -64,3 +64,4 @@ results = pd.DataFrame({"reconstruction_error": errors, "anomaly": anomalies})
 results.to_csv("../outputs/anomaly_results.csv", index=False)
 
 print("\nResults saved to outputs")
+print(f"Threshold = {threshold}")
