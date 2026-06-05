@@ -36,9 +36,9 @@ This approach enables detection of previously unseen threats and zero-day attack
 
 ---
 
-# 🚀 Features
+## 🚀 Features
 
-### ✅ Data Processing Pipeline
+### Data Processing Pipeline
 
 - NSL-KDD Dataset Support
 - Feature Engineering
@@ -46,69 +46,46 @@ This approach enables detection of previously unseen threats and zero-day attack
 - Data Normalization
 - Tensor Conversion
 
-### ✅ Deep Learning Autoencoder
+### Deep Learning Autoencoder
 
-- Fully Connected Encoder Network
-- Latent Space Compression
-- Decoder Reconstruction
-- Reconstruction Loss Optimization
-
-### ✅ Anomaly Detection Engine
-
+- Encoder-Decoder Architecture
+- Latent Space Representation Learning
 - Reconstruction Error Analysis
-- Dynamic Threshold Detection
-- Attack Probability Scoring
+- Anomaly Scoring
+
+### Threat Detection Engine
+
+- Unsupervised Anomaly Detection
+- Dynamic Thresholding
 - Suspicious Traffic Identification
+- Threat Percentage Reporting
 
-### ✅ Pattern Exploration
+### Visualization & Analytics
 
-- PCA Visualization
-- t-SNE Embedding Visualization
+- PCA-Based Embedding Visualization
+- t-SNE Cluster Analysis
+- Traffic Pattern Exploration
 - Latent Space Analysis
-- Traffic Cluster Discovery
 
-### ✅ Professional Development Workflow
+### Interactive Dashboard
 
-- Git Version Control
-- Modular Project Structure
-- Reproducible Training Pipeline
-- Model Checkpointing
+- Streamlit-Based User Interface
+- Dataset Exploration
+- Threat Statistics
+- Anomaly Detection Results
+- Real-Time Monitoring Simulation
 
----
+### Live Packet Monitoring
 
-# 🧠 Project Architecture
-
-```text
-Raw Network Traffic
-        │
-        ▼
-Data Preprocessing
-        │
-        ▼
-Feature Engineering
-        │
-        ▼
-PyTorch Dataset
-        │
-        ▼
-Autoencoder Training
-        │
-        ▼
-Latent Space Learning
-        │
-        ▼
-Reconstruction Error
-        │
-        ▼
-Anomaly Detection
-        │
-        ▼
-Threat Identification
-```
+- Packet Capture using Scapy
+- Live Traffic Inspection
+- Source/Destination IP Tracking
+- Real-Time Anomaly Scoring
+- Experimental IDS Prototype
 
 ---
 
-# 📂 Project Structure
+## 📂 Updated Project Structure
 
 ```text
 AI-Cyber-Pattern-Detector/
@@ -124,340 +101,85 @@ AI-Cyber-Pattern-Detector/
 ├── outputs/
 │   ├── anomaly_results.csv
 │   ├── pca_visualization.png
-│   └── tsne_visualization.png
+│   ├── tsne_visualization.png
+│   └── live_monitor_log.csv
 │
 ├── src/
-│   ├── dataset.py
 │   ├── preprocess.py
 │   ├── dataset_loader.py
 │   ├── model.py
 │   ├── train.py
 │   ├── anomaly_detection.py
-│   └── visualize_embeddings.py
+│   ├── visualize_embeddings.py
+│   ├── realtime_monitor.py
+│   ├── live_packet_monitor.py
+│   └── app.py
 │
-├── notebooks/
+├── screenshots/
 │
 ├── requirements.txt
 ├── README.md
 └── .gitignore
+
 ```
 
 ---
 
-# 📊 Dataset
+## ⚠️ Live Packet Monitoring Disclaimer
 
-## NSL-KDD Dataset
+The live packet monitoring module demonstrates real-time packet acquisition using Scapy and integration with the trained anomaly detection model.
 
-The project uses the NSL-KDD dataset, one of the most widely used benchmark datasets for Intrusion Detection Systems.
+The Autoencoder was trained using the NSL-KDD dataset, which contains connection-level engineered features. Live packet capture currently uses an approximate feature mapping derived from packet metadata such as protocol, packet size, and TCP flags.
 
-### Dataset Includes
+Therefore:
 
-- Normal Network Traffic
-- Denial of Service (DoS)
-- Probe Attacks
-- User-to-Root (U2R)
-- Remote-to-Local (R2L)
+- Real packet capture is fully functional.
+- Live anomaly scoring is functional.
+- The live IDS should be considered a prototype implementation.
+- Production-grade accuracy would require full NSL-KDD-style connection feature extraction.
 
-### Features
-
-- 41 Network Features
-- Attack Labels
-- Multiple Attack Categories
+This module is included to demonstrate practical integration of deep learning models with real network traffic.
 
 ---
 
-# 🔬 Machine Learning Pipeline
-
-## Step 1 — Data Preprocessing
-
-### Operations
-
-- Remove unnecessary columns
-- Encode categorical values
-- Normalize numerical features
-- Convert labels to binary classification
-
-### Output
-
-```text
-Normal Traffic → 0
-Attack Traffic → 1
-```
-
----
-
-## Step 2 — Autoencoder Training
-
-The model learns compressed representations of network behavior.
-
-### Encoder
-
-```text
-41 → 32 → 16 → 8
-```
-
-### Decoder
-
-```text
-8 → 16 → 32 → 41
-```
-
-### Latent Space
-
-The 8-dimensional latent vector captures hidden traffic patterns learned by the AI.
-
----
-
-## Step 3 — Reconstruction Error Analysis
-
-The model attempts to reconstruct input traffic.
-
-### Normal Traffic
-
-```text
-Input ≈ Reconstruction
-Low Error
-```
-
-### Suspicious Traffic
-
-```text
-Input ≠ Reconstruction
-High Error
-```
-
-The reconstruction error becomes the anomaly score.
-
----
-
-# 📈 Visualization
-
-The project visualizes learned traffic patterns using:
-
-## PCA
-
-Principal Component Analysis
-
-Used to:
-
-- Reduce dimensionality
-- Visualize learned embeddings
-- Discover traffic clusters
-
-## t-SNE
-
-t-Distributed Stochastic Neighbor Embedding
-
-Used to:
-
-- Reveal hidden structures
-- Identify attack clusters
-- Explore latent representations
-
----
-
-# ⚙️ Installation
-
-## Clone Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/AI-Cyber-Pattern-Detector.git
-
-cd AI-Cyber-Pattern-Detector
-```
-
----
-
-## Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
----
-
-## Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# 🚀 Usage
-
-## 1. Preprocess Dataset
-
-```bash
-cd src
-
-python preprocess.py
-```
-
----
-
-## 2. Create Dataset Loader
-
-```bash
-python dataset_loader.py
-```
-
----
-
-## 3. Train Autoencoder
-
-```bash
-python train.py
-```
-
----
-
-## 4. Run Anomaly Detection
-
-```bash
-python anomaly_detection.py
-```
-
----
-
-## 5. Generate Visualizations
-
-```bash
-python visualize_embeddings.py
-```
-
----
-
-# 📊 Sample Results
-
-### Outputs Generated
-
-```text
-outputs/
-
-├── anomaly_results.csv
-├── pca_visualization.png
-└── tsne_visualization.png
-```
-
-### Model Output
-
-```text
-Detected Anomalies: XXXX
-
-Normal Traffic: XXXX
-
-Anomaly Percentage: XX%
-```
-
----
-
-# 🛠️ Technologies Used
-
-### Programming
-
-- Python
-
-### Deep Learning
-
-- PyTorch
-
-### Data Processing
-
-- Pandas
-- NumPy
-
-### Visualization
-
-- Matplotlib
-- Scikit-Learn
-
-### Development Tools
-
-- Git
-- GitHub
-- VS Code
-
----
-
-# 🎯 Learning Outcomes
-
-This project demonstrates practical experience in:
-
-### Cybersecurity
-
-- Intrusion Detection Systems
-- Threat Detection
-- Traffic Analysis
-- Anomaly Detection
-
-### Machine Learning
-
-- Deep Learning
-- Autoencoders
-- Feature Engineering
-- Representation Learning
-
-### PyTorch
-
-- Custom Datasets
-- DataLoaders
-- Model Training
-- GPU Acceleration
-- Model Serialization
-
----
-
-# 🚀 Future Improvements
-
-### Planned Features
-
-- Streamlit Dashboard
-- Real-Time Packet Monitoring
-- Live Network Sniffing
-- Transformer-Based IDS
-- Threat Classification
-- Explainable AI Visualizations
+## 🚀 Future Improvements
+
+### Planned Enhancements
+
+- Real-Time Dashboard Streaming
+- Live Threat Alerts
+- Packet Logging Database
+- Advanced Packet Feature Engineering
+- Connection-Level Traffic Analysis
+- Transformer-Based Anomaly Detection
+- Explainable AI (XAI) Visualizations
+- Cloud Deployment
 - SIEM Integration
-- Deployment on Cloud
+- Enterprise SOC Dashboard
 
 ---
 
-# 📸 Screenshots
+## 🎯 Current Capabilities
 
-Add screenshots here after generating outputs.
+✅ Data Preprocessing Pipeline
 
-### PCA Visualization
+✅ PyTorch Autoencoder Training
 
-```text
-Insert PCA Visualization Image
-```
+✅ Reconstruction Error-Based Detection
 
-### t-SNE Visualization
+✅ Anomaly Detection Engine
 
-```text
-Insert t-SNE Visualization Image
-```
+✅ PCA Visualization
 
-### Dashboard Preview
+✅ t-SNE Visualization
 
-```text
-Coming Soon
-```
+✅ Interactive Streamlit Dashboard
 
----
+✅ Real-Time Traffic Simulation
+
+✅ Live Packet Capture using Scapy
+
+✅ Experimental AI-Powered IDS Prototype
 
 # 🤝 Contributing
 
