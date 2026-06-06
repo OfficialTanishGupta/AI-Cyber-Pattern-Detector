@@ -31,6 +31,7 @@ page = st.sidebar.radio(
         "Dataset Overview",
         "Anomaly Detection",
         "Real-Time Monitor",
+        "SOC Dashboard",
         "Visualizations",
         "About",
     ],
@@ -182,6 +183,59 @@ elif page == "Real-Time Monitor":
             status_box.success(f"✅ Threat Score: {threat_score:.4f}")
 
         time.sleep(0.1)
+
+
+elif page == "SOC Dashboard":
+
+    import os
+
+    st.title("🛡️ Security Operations Center")
+
+    log_file = "../outputs/live_monitor_log.csv"
+
+    if os.path.exists(log_file):
+
+        df = pd.read_csv(log_file)
+
+        if len(df) > 0:
+
+            total_packets = len(df)
+
+            threats = df["status"].str.contains("THREAT").sum()
+
+            normals = total_packets - threats
+
+            threat_percent = (threats / total_packets) * 100
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            with col1:
+                st.metric("Packets", total_packets)
+
+            with col2:
+                st.metric("Threats", threats)
+
+            with col3:
+                st.metric("Normal", normals)
+
+            with col4:
+                st.metric("Threat %", f"{threat_percent:.2f}%")
+
+            st.subheader("Recent Events")
+
+            st.dataframe(df.tail(50))
+
+            st.subheader("Anomaly Score Trend")
+
+            st.line_chart(df["error"])
+
+        else:
+
+            st.warning("No packet logs yet.")
+
+    else:
+
+        st.warning("Run live_packet_monitor.py first.")
 
 
 elif page == "About":

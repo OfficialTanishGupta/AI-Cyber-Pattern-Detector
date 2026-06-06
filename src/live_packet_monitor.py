@@ -1,5 +1,8 @@
 import torch
 import numpy as np
+import csv
+from datetime import datetime
+import os
 
 from scapy.all import sniff
 from scapy.layers.inet import IP, TCP, UDP, ICMP
@@ -9,6 +12,22 @@ from model import AutoEncoder
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 print(f"Using Device: {device}")
+
+LOG_FILE = "../outputs/live_monitor_log.csv"
+
+
+def save_log(src_ip, dst_ip, error, status):
+
+    file_exists = os.path.exists(LOG_FILE)
+
+    with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
+
+        writer = csv.writer(f)
+
+        if not file_exists:
+            writer.writerow(["timestamp", "src_ip", "dst_ip", "error", "status"])
+
+        writer.writerow([datetime.now(), src_ip, dst_ip, error, status])
 
 
 model = AutoEncoder(41).to(device)
@@ -56,6 +75,9 @@ def packet_to_features(packet):
 
 def process_packet(packet):
 
+    if not packet.haslayer(IP):
+        return
+
     global packet_count
     global threat_count
 
@@ -75,25 +97,27 @@ def process_packet(packet):
 
         error = error.item()
 
+        # Create IP variables FIRST
+        src_ip = packet[IP].src
+        dst_ip = packet[IP].dst
+
         if error > THRESHOLD:
 
             threat_count += 1
-
-            status = "🚨 THREAT"
+            status = "THREAT"
 
         else:
 
-            status = "✅ NORMAL"
+            status = "NORMAL"
 
-        src_ip = packet[IP].src if packet.haslayer(IP) else "Unknown"
-
-        dst_ip = packet[IP].dst if packet.haslayer(IP) else "Unknown"
+        # Save AFTER variables exist
+        save_log(src_ip, dst_ip, error, status)
 
         print(
             f"[{packet_count}] "
             f"{src_ip} -> {dst_ip} | "
             f"Error={error:.6f} | "
-            f"{status}"
+            f"Status={status}"
         )
 
     except Exception as e:
