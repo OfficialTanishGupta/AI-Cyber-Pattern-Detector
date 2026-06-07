@@ -1,34 +1,58 @@
 import torch
 import numpy as np
 import csv
-from datetime import datetime
 import os
+from datetime import datetime
 
 from scapy.all import sniff
 from scapy.layers.inet import IP, TCP, UDP, ICMP
 
 from model import AutoEncoder
 
+# ==========================================
+# DEVICE SETUP
+# ==========================================
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 print(f"Using Device: {device}")
 
+
+# ==========================================
+# LOG FILE
+# ==========================================
+
 LOG_FILE = "../outputs/live_monitor_log.csv"
+
+
+def initialize_log_file():
+
+    os.makedirs("../outputs", exist_ok=True)
+
+    if not os.path.exists(LOG_FILE) or os.path.getsize(LOG_FILE) == 0:
+
+        with open(LOG_FILE, mode="w", newline="", encoding="utf-8") as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow(["timestamp", "src_ip", "dst_ip", "error", "status"])
 
 
 def save_log(src_ip, dst_ip, error, status):
 
-    file_exists = os.path.exists(LOG_FILE)
+    with open(LOG_FILE, mode="a", newline="", encoding="utf-8") as file:
 
-    with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(file)
 
-        writer = csv.writer(f)
+        writer.writerow([datetime.now(), src_ip, dst_ip, float(error), status])
 
-        if not file_exists:
-            writer.writerow(["timestamp", "src_ip", "dst_ip", "error", "status"])
 
-        writer.writerow([datetime.now(), src_ip, dst_ip, error, status])
+initialize_log_file()
 
+
+# ==========================================
+# LOAD MODEL
+# ==========================================
 
 model = AutoEncoder(41).to(device)
 
@@ -39,11 +63,20 @@ model.eval()
 print("Autoencoder Loaded Successfully")
 
 
+# ==========================================
+# THRESHOLD
+# ==========================================
+
 THRESHOLD = 0.019
 
 
 packet_count = 0
 threat_count = 0
+
+
+# ==========================================
+# FEATURE EXTRACTION
+# ==========================================
 
 
 def packet_to_features(packet):
@@ -53,7 +86,7 @@ def packet_to_features(packet):
     # Duration
     features[0] = 0
 
-    # Protocol
+    # Protocol Type
     if packet.haslayer(TCP):
         features[1] = 0
 
@@ -73,17 +106,25 @@ def packet_to_features(packet):
     return features
 
 
-def process_packet(packet):
+# ==========================================
+# PACKET PROCESSING
+# ==========================================
 
-    if not packet.haslayer(IP):
-        return
+
+def process_packet(packet):
 
     global packet_count
     global threat_count
 
-    packet_count += 1
+    if not packet.haslayer(IP):
+        return
 
     try:
+
+        packet_count += 1
+
+        src_ip = packet[IP].src
+        dst_ip = packet[IP].dst
 
         features = packet_to_features(packet)
 
@@ -95,11 +136,7 @@ def process_packet(packet):
 
             error = torch.mean((tensor - reconstructed) ** 2)
 
-        error = error.item()
-
-        # Create IP variables FIRST
-        src_ip = packet[IP].src
-        dst_ip = packet[IP].dst
+        error = float(error.item())
 
         if error > THRESHOLD:
 
@@ -110,7 +147,6 @@ def process_packet(packet):
 
             status = "NORMAL"
 
-        # Save AFTER variables exist
         save_log(src_ip, dst_ip, error, status)
 
         print(
@@ -124,6 +160,10 @@ def process_packet(packet):
 
         print(f"Packet Processing Error: {e}")
 
+
+# ==========================================
+# START MONITORING
+# ==========================================
 
 print("\nStarting Live Packet Monitoring...")
 print("Press CTRL+C to Stop\n")
