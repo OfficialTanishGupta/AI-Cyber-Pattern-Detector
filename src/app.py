@@ -187,55 +187,104 @@ elif page == "Real-Time Monitor":
 
 elif page == "SOC Dashboard":
 
-    import os
-
     st.title("🛡️ Security Operations Center")
 
     log_file = "../outputs/live_monitor_log.csv"
 
-    if os.path.exists(log_file):
+    if not os.path.exists(log_file):
+
+        st.warning("No packet logs yet.")
+        st.stop()
+
+    try:
 
         df = pd.read_csv(log_file)
 
-        if len(df) > 0:
+    except Exception as e:
 
-            total_packets = len(df)
+        st.error(f"Error reading log file: {e}")
+        st.stop()
 
-            threats = df["status"].str.contains("THREAT").sum()
+    if len(df) == 0:
 
-            normals = total_packets - threats
+        st.warning("No packet logs available.")
+        st.stop()
 
-            threat_percent = (threats / total_packets) * 100
+    # Clean column names
+    df.columns = df.columns.str.strip()
 
-            col1, col2, col3, col4 = st.columns(4)
+    required_columns = ["timestamp", "src_ip", "dst_ip", "error", "status"]
 
-            with col1:
-                st.metric("Packets", total_packets)
+    for col in required_columns:
 
-            with col2:
-                st.metric("Threats", threats)
+        if col not in df.columns:
 
-            with col3:
-                st.metric("Normal", normals)
+            st.error(f"Missing column: {col}")
 
-            with col4:
-                st.metric("Threat %", f"{threat_percent:.2f}%")
+            st.write("Detected Columns:")
+            st.write(df.columns.tolist())
 
-            st.subheader("Recent Events")
+            st.stop()
 
-            st.dataframe(df.tail(50))
+    # ==========================
+    # Metrics
+    # ==========================
 
-            st.subheader("Anomaly Score Trend")
+    total_packets = len(df)
 
-            st.line_chart(df["error"])
+    threats = df["status"].astype(str).str.contains("THREAT", na=False).sum()
 
-        else:
+    normal = total_packets - threats
 
-            st.warning("No packet logs yet.")
+    threat_percentage = (threats / max(total_packets, 1)) * 100
 
-    else:
+    col1, col2, col3, col4 = st.columns(4)
 
-        st.warning("Run live_packet_monitor.py first.")
+    col1.metric("Packets", total_packets)
+
+    col2.metric("Threats", threats)
+
+    col3.metric("Normal", normal)
+
+    col4.metric("Threat %", f"{threat_percentage:.2f}%")
+
+    st.divider()
+
+    # ==========================
+    # Threat Timeline
+    # ==========================
+
+    st.subheader("📈 Threat Timeline")
+
+    df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
+
+    timeline = df.groupby(df["timestamp"].dt.minute).size().reset_index(name="packets")
+
+    st.line_chart(timeline["packets"])
+
+    st.divider()
+
+    # ==========================
+    # Top Attack Sources
+    # ==========================
+
+    st.subheader("🌍 Top Source IPs")
+
+    top_sources = df["src_ip"].value_counts().head(10)
+
+    st.bar_chart(top_sources)
+
+    st.divider()
+
+    # ==========================
+    # Recent Threats
+    # ==========================
+
+    st.subheader("🚨 Latest Threat Activity")
+
+    threats_df = df[df["status"] == "THREAT"]
+
+    st.dataframe(threats_df.tail(25), use_container_width=True)
 
 
 elif page == "About":
