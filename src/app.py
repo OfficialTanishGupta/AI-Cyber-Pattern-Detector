@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 import os
+import plotly.express as px
+from geo_lookup import get_country
 
 st.markdown(
     """
@@ -199,6 +201,44 @@ elif page == "SOC Dashboard":
     try:
 
         df = pd.read_csv(log_file)
+        if "country" not in df.columns:
+
+            countries = []
+
+            for ip in df["src_ip"]:
+
+                country = get_country(ip)
+
+                countries.append(country)
+
+            df["country"] = countries
+
+            st.divider()
+
+            st.subheader("🌍 Top Threat Countries")
+
+            country_counts = df["country"].value_counts().head(10)
+
+            st.bar_chart(country_counts)
+
+            st.divider()
+
+            st.subheader("🗺️ Global Threat Map")
+
+            country_map = df["country"].value_counts().reset_index()
+
+            country_map.columns = ["country", "attacks"]
+
+            fig = px.choropleth(
+                country_map,
+                locations="country",
+                locationmode="country names",
+                color="attacks",
+                hover_name="country",
+                title="Global Attack Sources",
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
 
     except Exception as e:
 
@@ -210,7 +250,6 @@ elif page == "SOC Dashboard":
         st.warning("No packet logs available.")
         st.stop()
 
-    # Clean column names
     df.columns = df.columns.str.strip()
 
     required_columns = ["timestamp", "src_ip", "dst_ip", "error", "status"]
@@ -225,10 +264,6 @@ elif page == "SOC Dashboard":
             st.write(df.columns.tolist())
 
             st.stop()
-
-    # ==========================
-    # Metrics
-    # ==========================
 
     total_packets = len(df)
 
@@ -250,10 +285,6 @@ elif page == "SOC Dashboard":
 
     st.divider()
 
-    # ==========================
-    # Threat Timeline
-    # ==========================
-
     st.subheader("📈 Threat Timeline")
 
     df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
@@ -264,10 +295,6 @@ elif page == "SOC Dashboard":
 
     st.divider()
 
-    # ==========================
-    # Top Attack Sources
-    # ==========================
-
     st.subheader("🌍 Top Source IPs")
 
     top_sources = df["src_ip"].value_counts().head(10)
@@ -275,10 +302,6 @@ elif page == "SOC Dashboard":
     st.bar_chart(top_sources)
 
     st.divider()
-
-    # ==========================
-    # Recent Threats
-    # ==========================
 
     st.subheader("🚨 Latest Threat Activity")
 
