@@ -5,6 +5,7 @@ from PIL import Image
 import os
 import plotly.express as px
 from geo_lookup import get_country
+from report_generator import generate_report
 
 st.markdown(
     """
@@ -310,6 +311,32 @@ elif page == "SOC Dashboard":
     st.dataframe(threats_df.tail(25), use_container_width=True)
 
 
+st.divider()
+
+st.subheader("📄 Threat Intelligence Report")
+
+if st.button("Generate PDF Report", key="pdf_report_btn"):
+
+    report_path = generate_report()
+
+    if report_path:
+
+        st.success("PDF Report Generated Successfully")
+
+        with open(report_path, "rb") as file:
+
+            st.download_button(
+                label="Download Report",
+                data=file,
+                file_name="Threat_Report.pdf",
+                mime="application/pdf",
+            )
+
+    else:
+
+        st.error("Unable to generate report.")
+
+
 elif page == "About":
 
     st.title("ℹ️ About Project")
@@ -333,3 +360,28 @@ elif page == "About":
 
     Developed by Tanish Gupta
     """)
+
+    st.divider()
+
+st.subheader("📄 Threat Intelligence Report")
+
+if st.button("Generate PDF Report"):
+
+    report_path = generate_report()
+
+    if report_path:
+
+        st.success("PDF Report Generated Successfully")
+
+        with open(report_path, "rb") as file:
+
+            st.download_button(
+                label="Download Report",
+                data=file,
+                file_name="Threat_Report.pdf",
+                mime="application/pdf",
+            )
+
+    else:
+
+        st.error("Unable to generate report.")
