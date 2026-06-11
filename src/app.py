@@ -6,6 +6,7 @@ import os
 import plotly.express as px
 from geo_lookup import get_country
 from report_generator import generate_report
+from threat_intelligence import get_threat_intelligence
 
 st.markdown(
     """
@@ -36,6 +37,7 @@ page = st.sidebar.radio(
         "Real-Time Monitor",
         "SOC Dashboard",
         "Visualizations",
+        "Threat Intelligence",
         "About",
     ],
 )
@@ -310,31 +312,62 @@ elif page == "SOC Dashboard":
 
     st.dataframe(threats_df.tail(25), use_container_width=True)
 
+    st.divider()
 
-st.divider()
+    st.subheader("📄 Threat Intelligence Report")
 
-st.subheader("📄 Threat Intelligence Report")
+    if st.button("Generate PDF Report", key="pdf_report_btn"):
 
-if st.button("Generate PDF Report", key="pdf_report_btn"):
+        report_path = generate_report()
 
-    report_path = generate_report()
+        if report_path:
 
-    if report_path:
+            st.success("PDF Report Generated Successfully")
 
-        st.success("PDF Report Generated Successfully")
+            with open(report_path, "rb") as file:
 
-        with open(report_path, "rb") as file:
+                st.download_button(
+                    label="Download Report",
+                    data=file,
+                    file_name="Threat_Report.pdf",
+                    mime="application/pdf",
+                )
 
-            st.download_button(
-                label="Download Report",
-                data=file,
-                file_name="Threat_Report.pdf",
-                mime="application/pdf",
-            )
+        else:
+
+            st.error("Unable to generate report.")
+
+elif page == "Threat Intelligence":
+
+    st.title("🕵️ Threat Intelligence Feed")
+
+    threats = get_threat_intelligence()
+
+    if len(threats) == 0:
+
+        st.warning("No threat data available.")
 
     else:
 
-        st.error("Unable to generate report.")
+        st.subheader("Most Dangerous IPs")
+
+        st.dataframe(threats, use_container_width=True)
+
+        high_risk = len(threats[threats["risk_level"] == "HIGH"])
+
+        medium_risk = len(threats[threats["risk_level"] == "MEDIUM"])
+
+        low_risk = len(threats[threats["risk_level"] == "LOW"])
+
+        c1, c2, c3 = st.columns(3)
+
+        c1.metric("HIGH RISK", high_risk)
+
+        c2.metric("MEDIUM RISK", medium_risk)
+
+        c3.metric("LOW RISK", low_risk)
+
+        st.bar_chart(threats.set_index("src_ip")["threat_count"])
 
 
 elif page == "About":
