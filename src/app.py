@@ -38,6 +38,7 @@ page = st.sidebar.radio(
         "SOC Dashboard",
         "Visualizations",
         "Threat Intelligence",
+        "Attack Analytics",
         "About",
     ],
 )
@@ -341,33 +342,125 @@ elif page == "Threat Intelligence":
 
     st.title("🕵️ Threat Intelligence Feed")
 
-    threats = get_threat_intelligence()
+    try:
+        threats = get_threat_intelligence()
 
-    if len(threats) == 0:
+        if threats.empty:
+            st.warning("No threat data available.")
+        else:
+            st.subheader("Most Dangerous IPs")
+            st.dataframe(threats, use_container_width=True)
 
-        st.warning("No threat data available.")
+            high_risk = len(threats[threats["risk_level"] == "HIGH"])
+            medium_risk = len(threats[threats["risk_level"] == "MEDIUM"])
+            low_risk = len(threats[threats["risk_level"] == "LOW"])
 
-    else:
+            c1, c2, c3 = st.columns(3)
+            c1.metric("HIGH RISK", high_risk)
+            c2.metric("MEDIUM RISK", medium_risk)
+            c3.metric("LOW RISK", low_risk)
 
-        st.subheader("Most Dangerous IPs")
+            st.bar_chart(threats.set_index("src_ip")["threat_count"])
 
-        st.dataframe(threats, use_container_width=True)
+            # FIXED: Moved and properly indented inside the Threat Intelligence page scope
+            st.divider()
+            st.subheader("📄 Threat Intelligence Report")
 
-        high_risk = len(threats[threats["risk_level"] == "HIGH"])
+            if st.button("Generate PDF Report", key="threat_intel_pdf_btn"):
+                report_path = generate_report()
 
-        medium_risk = len(threats[threats["risk_level"] == "MEDIUM"])
+                if report_path and os.path.exists(report_path):
+                    st.success("PDF Report Generated Successfully")
 
-        low_risk = len(threats[threats["risk_level"] == "LOW"])
+                    with open(report_path, "rb") as file:
+                        st.download_button(
+                            label="Download Report",
+                            data=file,
+                            file_name="Threat_Report.pdf",
+                            mime="application/pdf",
+                        )
+                else:
+                    st.error("Unable to generate report.")
 
-        c1, c2, c3 = st.columns(3)
+    except Exception as e:
+        st.error(f"Error loading Threat Intelligence: {e}")
 
-        c1.metric("HIGH RISK", high_risk)
+elif page == "Attack Analytics":
 
-        c2.metric("MEDIUM RISK", medium_risk)
+    st.title("📈 Attack Timeline Analytics")
 
-        c3.metric("LOW RISK", low_risk)
+    log_file = "../outputs/live_monitor_log.csv"
 
-        st.bar_chart(threats.set_index("src_ip")["threat_count"])
+    if not os.path.exists(log_file):
+
+        st.warning("No monitoring data available.")
+        st.stop()
+
+    df = pd.read_csv(log_file)
+
+    if len(df) == 0:
+
+        st.warning("No threat data found.")
+        st.stop()
+
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+    threats_df = df[df["status"] == "THREAT"]
+
+    if len(threats_df) == 0:
+
+        st.info("No threats detected yet.")
+        st.stop()
+
+    st.subheader("Threat Activity Over Time")
+
+    timeline = (
+        threats_df.groupby(threats_df["timestamp"].dt.floor("min"))
+        .size()
+        .reset_index(name="threats")
+    )
+
+    st.line_chart(timeline.set_index("timestamp")["threats"])
+
+    peak_idx = timeline["threats"].idxmax()
+
+    peak_time = timeline.iloc[peak_idx]["timestamp"]
+
+    peak_count = timeline.iloc[peak_idx]["threats"]
+
+    total_threats = len(threats_df)
+
+    avg_threats = round(timeline["threats"].mean(), 2)
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    c1.metric("Total Threats", total_threats)
+
+    c2.metric("Peak Threat Count", peak_count)
+
+    c3.metric("Average Threats", avg_threats)
+
+    c4.metric("Peak Time", str(peak_time)[11:16])
+
+    st.divider()
+
+    st.subheader("Top Attack Hours")
+
+    hourly = (
+        threats_df.groupby(threats_df["timestamp"].dt.hour)
+        .size()
+        .reset_index(name="count")
+    )
+
+    hourly.columns = ["Hour", "Threat Count"]
+
+    st.bar_chart(hourly.set_index("Hour"))
+
+    st.divider()
+
+    st.subheader("Recent Threat Events")
+
+    st.dataframe(threats_df.tail(50), use_container_width=True)
 
 
 elif page == "About":
@@ -395,26 +488,3 @@ elif page == "About":
     """)
 
     st.divider()
-
-st.subheader("📄 Threat Intelligence Report")
-
-if st.button("Generate PDF Report"):
-
-    report_path = generate_report()
-
-    if report_path:
-
-        st.success("PDF Report Generated Successfully")
-
-        with open(report_path, "rb") as file:
-
-            st.download_button(
-                label="Download Report",
-                data=file,
-                file_name="Threat_Report.pdf",
-                mime="application/pdf",
-            )
-
-    else:
-
-        st.error("Unable to generate report.")
