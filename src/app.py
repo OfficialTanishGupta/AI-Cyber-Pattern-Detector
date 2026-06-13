@@ -7,6 +7,8 @@ import plotly.express as px
 from geo_lookup import get_country
 from report_generator import generate_report
 from threat_intelligence import get_threat_intelligence
+from network_graph import generate_network_graph
+import streamlit.components.v1 as components
 
 st.markdown(
     """
@@ -39,6 +41,7 @@ page = st.sidebar.radio(
         "Visualizations",
         "Threat Intelligence",
         "Attack Analytics",
+        "Network Graph",
         "About",
     ],
 )
@@ -461,6 +464,31 @@ elif page == "Attack Analytics":
     st.subheader("Recent Threat Events")
 
     st.dataframe(threats_df.tail(50), use_container_width=True)
+
+
+elif page == "Network Graph":
+
+    st.title("🌐 Network Attack Graph")
+
+    st.markdown("""
+    Visualize connections between source
+    and destination IP addresses involved
+    in detected threats.
+    """)
+
+    graph_file = generate_network_graph()
+
+    if graph_file is None:
+
+        st.warning("No threat graph available.")
+
+    else:
+
+        with open(graph_file, "r", encoding="utf-8") as f:
+
+            html = f.read()
+
+        st.html(html)
 
 
 elif page == "About":
