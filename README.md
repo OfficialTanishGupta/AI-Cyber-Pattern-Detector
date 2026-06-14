@@ -1,91 +1,253 @@
 # 🛡️ AI Cyber Threat Pattern Detector
 
-<div align="center">
+An advanced Cybersecurity Analytics Platform built using PyTorch, Streamlit, Scapy, and Machine Learning.
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-red.svg)
-![Cybersecurity](https://img.shields.io/badge/Cybersecurity-Anomaly%20Detection-green.svg)
-![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Autoencoder-orange.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+The system learns normal network traffic behavior using a Deep Autoencoder and identifies suspicious activities through anomaly detection.
 
-### Intelligent Network Traffic Analysis using Deep Learning and Anomaly Detection
-
-Detect suspicious network activity by learning normal traffic behavior through Autoencoders, Latent Space Representation Learning, and Pattern Discovery.
-
-</div>
+It also provides real-time packet monitoring, threat intelligence, attack analytics, geolocation visualization, PDF reporting, and interactive network attack graphs.
 
 ---
 
-# 📌 Overview
+# 🚀 Features
 
-Traditional Intrusion Detection Systems (IDS) rely heavily on predefined rules and attack signatures.
+## 🔍 Deep Learning Anomaly Detection
 
-This project takes a different approach.
-
-Using Deep Learning and PyTorch, the model learns the normal behavior of network traffic and identifies suspicious activity based on reconstruction error.
-
-Instead of asking:
-
-> "Is this a known attack?"
-
-The system asks:
-
-> "Does this traffic pattern look abnormal?"
-
-This approach enables detection of previously unseen threats and zero-day attack patterns.
+- PyTorch Autoencoder
+- Unsupervised Learning
+- Reconstruction Error Analysis
+- Cyber Threat Detection
 
 ---
 
-## 🚀 Features
+## 📊 Dataset Analysis
 
-### Data Processing Pipeline
+Uses the NSL-KDD cybersecurity dataset.
 
-- NSL-KDD Dataset Support
+Features:
+
+- Data Cleaning
 - Feature Engineering
 - Label Encoding
-- Data Normalization
-- Tensor Conversion
-
-### Deep Learning Autoencoder
-
-- Encoder-Decoder Architecture
-- Latent Space Representation Learning
-- Reconstruction Error Analysis
-- Anomaly Scoring
-
-### Threat Detection Engine
-
-- Unsupervised Anomaly Detection
-- Dynamic Thresholding
-- Suspicious Traffic Identification
-- Threat Percentage Reporting
-
-### Visualization & Analytics
-
-- PCA-Based Embedding Visualization
-- t-SNE Cluster Analysis
-- Traffic Pattern Exploration
-- Latent Space Analysis
-
-### Interactive Dashboard
-
-- Streamlit-Based User Interface
-- Dataset Exploration
-- Threat Statistics
-- Anomaly Detection Results
-- Real-Time Monitoring Simulation
-
-### Live Packet Monitoring
-
-- Packet Capture using Scapy
-- Live Traffic Inspection
-- Source/Destination IP Tracking
-- Real-Time Anomaly Scoring
-- Experimental IDS Prototype
+- Normalization
+- Train/Test Splitting
 
 ---
 
-## 📂 Updated Project Structure
+## 🚨 Threat Detection Engine
+
+Detects abnormal traffic using:
+
+```text
+Input Traffic
+       ↓
+Autoencoder
+       ↓
+Reconstruction Error
+       ↓
+Threat Classification
+```
+
+---
+
+## 📈 Latent Space Visualization
+
+Visualize learned traffic patterns using:
+
+### PCA
+
+- Dimensionality Reduction
+- Cluster Visualization
+
+### t-SNE
+
+- Pattern Exploration
+- Traffic Separation
+
+---
+
+## 🖥️ Streamlit Dashboard
+
+Interactive cybersecurity dashboard featuring:
+
+### Home
+
+- Project Overview
+- Model Information
+- System Status
+
+### Dataset Overview
+
+- Dataset Statistics
+- Attack Distribution
+- Sample Records
+
+### Anomaly Detection
+
+- Detection Results
+- Threat Metrics
+- Traffic Classification
+
+### Visualizations
+
+- PCA Visualization
+- t-SNE Visualization
+
+### Real-Time Monitor
+
+- Simulated Threat Scores
+- Live Monitoring Dashboard
+
+---
+
+# 🌐 Real Packet Monitoring
+
+Built using:
+
+- Scapy
+- PyTorch
+- Autoencoder
+
+Features:
+
+- Live Packet Capture
+- Real-Time Analysis
+- Threat Detection
+- CSV Logging
+
+Example:
+
+```text
+192.168.1.8 -> 20.52.64.201
+Status = THREAT
+Error = 51570.29
+```
+
+---
+
+# 🛡️ Security Operations Center (SOC)
+
+Professional SOC-style dashboard.
+
+Includes:
+
+- Total Packets
+- Threat Count
+- Normal Traffic
+- Threat Percentage
+- Threat Timeline
+- Source IP Analysis
+- Latest Threat Activity
+
+---
+
+# 🌍 Threat Intelligence Feed
+
+Identify the most dangerous IP addresses.
+
+Features:
+
+- Risk Scoring
+- Threat Count Analysis
+- High / Medium / Low Risk Classification
+- Threat Leaderboard
+
+Example:
+
+| Source IP      | Threat Count | Risk   |
+| -------------- | ------------ | ------ |
+| 20.52.64.201   | 650          | HIGH   |
+| 51.116.246.106 | 220          | MEDIUM |
+| 204.79.197.203 | 50           | LOW    |
+
+---
+
+# 🗺️ Global Attack Map
+
+Visualize threat origins worldwide.
+
+Features:
+
+- Geo-IP Lookup
+- Country Detection
+- Interactive World Map
+- Top Threat Countries
+
+Technologies:
+
+- Plotly
+- IP Geolocation API
+
+---
+
+# 📈 Attack Timeline Analytics
+
+Analyze attack trends over time.
+
+Features:
+
+- Threat Timeline
+- Peak Attack Time
+- Attack Frequency
+- Threat Trends
+- Top Attack Hours
+
+Metrics:
+
+- Total Threats
+- Peak Threat Count
+- Average Threats
+- Peak Activity Window
+
+---
+
+# 🌐 Network Attack Graph
+
+Interactive visualization of network communications.
+
+Features:
+
+- Source → Destination Mapping
+- Interactive Graph
+- Zoom Support
+- Drag-and-Drop Nodes
+- Threat Relationships
+
+Built using:
+
+- NetworkX
+- PyVis
+
+Example:
+
+```text
+192.168.1.8
+     ↓
+20.52.64.201
+     ↓
+51.116.246.106
+     ↓
+204.79.197.203
+```
+
+---
+
+# 📄 Threat Intelligence Reports
+
+Generate downloadable PDF reports.
+
+Includes:
+
+- Threat Summary
+- Top Source IPs
+- Top Destination IPs
+- Recent Threat Activity
+- Security Metrics
+
+One-click PDF Export from Streamlit.
+
+---
+
+# 🏗️ Project Structure
 
 ```text
 AI-Cyber-Pattern-Detector/
@@ -100,105 +262,155 @@ AI-Cyber-Pattern-Detector/
 │
 ├── outputs/
 │   ├── anomaly_results.csv
+│   ├── live_monitor_log.csv
+│   ├── threat_report.pdf
 │   ├── pca_visualization.png
 │   ├── tsne_visualization.png
-│   └── live_monitor_log.csv
+│   └── network_graph.html
 │
 ├── src/
 │   ├── preprocess.py
-│   ├── dataset_loader.py
-│   ├── model.py
 │   ├── train.py
 │   ├── anomaly_detection.py
-│   ├── visualize_embeddings.py
+│   ├── visualize.py
 │   ├── realtime_monitor.py
 │   ├── live_packet_monitor.py
+│   ├── geo_lookup.py
+│   ├── threat_intelligence.py
+│   ├── network_graph.py
+│   ├── report_generator.py
 │   └── app.py
 │
-├── screenshots/
-│
-├── requirements.txt
-├── README.md
-└── .gitignore
-
+└── README.md
 ```
 
 ---
 
-## ⚠️ Live Packet Monitoring Disclaimer
+# ⚙️ Installation
 
-The live packet monitoring module demonstrates real-time packet acquisition using Scapy and integration with the trained anomaly detection model.
+Clone repository:
 
-The Autoencoder was trained using the NSL-KDD dataset, which contains connection-level engineered features. Live packet capture currently uses an approximate feature mapping derived from packet metadata such as protocol, packet size, and TCP flags.
+```bash
+git clone https://github.com/OfficialTanishGupta/AI-Cyber-Pattern-Detector.git
 
-Therefore:
+cd AI-Cyber-Pattern-Detector
+```
 
-- Real packet capture is fully functional.
-- Live anomaly scoring is functional.
-- The live IDS should be considered a prototype implementation.
-- Production-grade accuracy would require full NSL-KDD-style connection feature extraction.
+Create virtual environment:
 
-This module is included to demonstrate practical integration of deep learning models with real network traffic.
+```bash
+python -m venv venv
+```
 
----
+Activate:
 
-## 🚀 Future Improvements
+### Windows
 
-### Planned Enhancements
+```bash
+venv\Scripts\activate
+```
 
-- Real-Time Dashboard Streaming
-- Live Threat Alerts
-- Packet Logging Database
-- Advanced Packet Feature Engineering
-- Connection-Level Traffic Analysis
-- Transformer-Based Anomaly Detection
-- Explainable AI (XAI) Visualizations
-- Cloud Deployment
-- SIEM Integration
-- Enterprise SOC Dashboard
+### Linux/Mac
 
----
+```bash
+source venv/bin/activate
+```
 
-## 🎯 Current Capabilities
+Install dependencies:
 
-✅ Data Preprocessing Pipeline
-
-✅ PyTorch Autoencoder Training
-
-✅ Reconstruction Error-Based Detection
-
-✅ Anomaly Detection Engine
-
-✅ PCA Visualization
-
-✅ t-SNE Visualization
-
-✅ Interactive Streamlit Dashboard
-
-✅ Real-Time Traffic Simulation
-
-✅ Live Packet Capture using Scapy
-
-✅ Experimental AI-Powered IDS Prototype
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit changes
-4. Open a Pull Request
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-# ⭐ Support
+# ▶️ Running the Project
 
-If you found this project useful:
+## Data Preprocessing
 
-- ⭐ Star the repository
-- 🍴 Fork the repository
-- 📢 Share with others
+```bash
+python preprocess.py
+```
+
+## Train Autoencoder
+
+```bash
+python train.py
+```
+
+## Detect Anomalies
+
+```bash
+python anomaly_detection.py
+```
+
+## Visualizations
+
+```bash
+python visualize.py
+```
+
+## Live Packet Monitoring
+
+```bash
+python live_packet_monitor.py
+```
+
+## Launch Dashboard
+
+```bash
+streamlit run app.py
+```
+
+---
+
+# 🧠 Technologies Used
+
+### Machine Learning
+
+- PyTorch
+- NumPy
+- Pandas
+- Scikit-Learn
+
+### Cybersecurity
+
+- Scapy
+- NSL-KDD Dataset
+
+### Visualization
+
+- Matplotlib
+- Plotly
+- PCA
+- t-SNE
+- NetworkX
+- PyVis
+
+### Dashboard
+
+- Streamlit
+
+### Reporting
+
+- ReportLab
+
+---
+
+# 🎯 Learning Outcomes
+
+This project demonstrates:
+
+- Deep Learning
+- Unsupervised Learning
+- Anomaly Detection
+- Cybersecurity Analytics
+- Network Monitoring
+- Packet Inspection
+- Threat Intelligence
+- Data Visualization
+- Dashboard Development
+- Security Reporting
 
 ---
 
@@ -206,14 +418,21 @@ If you found this project useful:
 
 ### Tanish Gupta
 
-AI Engineer | Machine Learning Enthusiast | Cybersecurity Explorer
+AI • Machine Learning • Cybersecurity • IoT • Robotics
 
-Passionate about building intelligent systems using AI, Deep Learning, Cybersecurity, Robotics, and IoT technologies.
+GitHub:
+
+https://github.com/OfficialTanishGupta
 
 ---
 
-## 📜 License
+# ⭐ Future Enhancements
 
-This project is licensed under the MIT License.
-
-Feel free to use, modify, and distribute for educational and research purposes.
+- Threat Severity Levels
+- Email Alert System
+- Docker Deployment
+- AWS Deployment
+- Threat Intelligence APIs
+- SIEM Integration
+- Advanced IDS Features
+- Malware Traffic Detection
